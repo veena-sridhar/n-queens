@@ -153,13 +153,61 @@
     // --------------------------------------------------------------
     //
     // test if a specific major diagonal on this board contains a conflict
-    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; //  = fixme
+    hasMajorDiagonalConflictAt: function(columnIndex) {
+      //access the array
+      var rows = this.rows();
+      //hold the sum in a variable
+      var sum = 0;
+      
+      //check to see if number is negative
+       //set negativeIndex to number; i[0]
+
+      var i = 0;
+      //check if columnIndex is positive
+      if (typeof rows[i][columnIndex] === 'number' && rows[i][columnIndex] >= 0) {
+        //while value is not undefined
+        while (rows[columnIndex] !== undefined && typeof rows[i][columnIndex] === 'number' && rows[i][columnIndex] >= 0) {
+          //add value to total sum
+          sum += rows[i][columnIndex];
+          //increment down one, right one
+          i += 1;
+          columnIndex++;
+        }
+      } else {
+        //if negative columnIndex convert to positive number
+        var negativeIndex = Math.abs(columnIndex);
+        //while value is not undefined
+        while (rows[negativeIndex] !== undefined && typeof rows[negativeIndex][i] === 'number') {
+          //add value to total sum
+          sum += rows[negativeIndex][i];
+          i++;
+          negativeIndex++;
+        }
+      }
+      //if collision return true
+      console.log(sum);
+      if (sum > 1) {
+        return true;
+      }
+      return false;
     },
+
+    
+
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      var rows = this.rows();
+      var n = rows.length;
+      var context = this;
+      var result = false;
+      for (var i = -Math.abs(n - 2); i <= n - 2; i++) {
+        //console.log(i);
+        if (context.hasMajorDiagonalConflictAt(i)) {
+          result = true;
+        }
+      }
+      return result; 
     },
 
 
@@ -168,13 +216,56 @@
     // --------------------------------------------------------------
     //
     // test if a specific minor diagonal on this board contains a conflict
-    hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+    hasMinorDiagonalConflictAt: function(columnIndex) {
+      //access the array
+      var rows = this.rows();
+      //hold the sum in a variable
+      var sum = 0;
+      
+      //check to see if number is negative
+       //set negativeIndex to number; i[0]
+
+      var i = 0;
+      //check if columnIndex is positive
+      if (typeof rows[i][columnIndex] === 'number' && columnIndex >= rows.length - 1) {
+        //while value is not undefined
+        while (rows[columnIndex] !== undefined && typeof rows[i][columnIndex] === 'number' && columnIndex >= rows.length - 1) {
+          //add value to total sum
+          sum += rows[i][columnIndex];
+          //increment down one, right one
+          i++;
+          columnIndex--;
+        }
+      } else {
+        //if negative columnIndex convert to positive number
+        var biggerIndex = columnIndex - rows.length + 1;
+        var j = rows.length - 1;
+        //while value is not undefined
+        while (rows[biggerIndex] !== undefined && typeof rows[biggerIndex][j] === 'number') {
+          //add value to total sum
+          sum += rows[biggerIndex][j];
+          j--;
+          biggerIndex++;
+        }
+      }
+      //if collision return true
+      if (sum > 1) {
+        return true;
+      }
+      return false;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      var rows = this.rows();
+      var context = this;
+      var result = false;
+      for (var i = rows.length + 1; i >= 0; i--) {
+        if (context.hasMinorDiagonalConflictAt(i)) {
+          result = true;
+        }
+      }
+      return result; 
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
