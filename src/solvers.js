@@ -32,13 +32,12 @@ window.findNRooksSolution = function(n) {
         board.togglePiece(rowIndex, colIndex);
         console.log(board, 'look board');
         if (!board.hasAnyRooksConflicts()) {
-          return findSolution(rowIndex + 1);
+          findSolution(rowIndex + 1);
+        } else {
+          board.togglePiece(rowIndex, colIndex);
         }
-        board.togglePiece(rowIndex, colIndex);
-
       }
     }
-
   };
   findSolution(0);
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
