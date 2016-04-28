@@ -16,8 +16,31 @@
 
 
 window.findNRooksSolution = function(n) {
-  var solution = undefined; //fixme
+  var board = new Board({'n': n});
+  var rows = board.rows();
+  var solution;
 
+  //recursive function that takes row index
+  var findSolution = function(rowIndex) {
+    if (rows[rowIndex] === undefined) {
+      solution = rows;
+      return;
+    } else {
+      for (var i = 0; i < n; i++) {
+        console.log('hi');
+        var colIndex = i;
+        board.togglePiece(rowIndex, colIndex);
+        console.log(board, 'look board');
+        if (!board.hasAnyRooksConflicts()) {
+          return findSolution(rowIndex + 1);
+        }
+        board.togglePiece(rowIndex, colIndex);
+
+      }
+    }
+
+  };
+  findSolution(0);
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
 };

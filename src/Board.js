@@ -8,9 +8,9 @@
 
     initialize: function (params) {
       if (_.isUndefined(params) || _.isNull(params)) {
-        console.log('Good guess! But to use the Board() constructor, you must pass it an argument in one of the following formats:');
-        console.log('\t1. An object. To create an empty board of size n:\n\t\t{n: %c<num>%c} - Where %c<num> %cis the dimension of the (empty) board you wish to instantiate\n\t\t%cEXAMPLE: var board = new Board({n:5})', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: grey;');
-        console.log('\t2. An array of arrays (a matrix). To create a populated board of size n:\n\t\t[ [%c<val>%c,%c<val>%c,%c<val>%c...], [%c<val>%c,%c<val>%c,%c<val>%c...], [%c<val>%c,%c<val>%c,%c<val>%c...] ] - Where each %c<val>%c is whatever value you want at that location on the board\n\t\t%cEXAMPLE: var board = new Board([[1,0,0],[0,1,0],[0,0,1]])', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: grey;');
+        // console.log('Good guess! But to use the Board() constructor, you must pass it an argument in one of the following formats:');
+        // console.log('\t1. An object. To create an empty board of size n:\n\t\t{n: %c<num>%c} - Where %c<num> %cis the dimension of the (empty) board you wish to instantiate\n\t\t%cEXAMPLE: var board = new Board({n:5})', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: grey;');
+        // console.log('\t2. An array of arrays (a matrix). To create a populated board of size n:\n\t\t[ [%c<val>%c,%c<val>%c,%c<val>%c...], [%c<val>%c,%c<val>%c,%c<val>%c...], [%c<val>%c,%c<val>%c,%c<val>%c...] ] - Where each %c<val>%c is whatever value you want at that location on the board\n\t\t%cEXAMPLE: var board = new Board([[1,0,0],[0,1,0],[0,0,1]])', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: blue;', 'color: black;', 'color: grey;');
       } else if (params.hasOwnProperty('n')) {
         this.set(makeEmptyMatrix(this.get('n')));
       } else {
@@ -107,7 +107,6 @@
         accumulator.push(sum);
         return accumulator;
       }, []);
-      console.log(newArray);
       for (var i = 0; i < newArray.length; i++) {
         if (newArray[i] > 1) {
           return true;
@@ -185,7 +184,6 @@
         }
       }
       //if collision return true
-      console.log(sum);
       if (sum > 1) {
         return true;
       }
@@ -202,7 +200,6 @@
       var context = this;
       var result = false;
       for (var i = -Math.abs(n - 2); i <= n - 2; i++) {
-        //console.log(i);
         if (context.hasMajorDiagonalConflictAt(i)) {
           result = true;
         }
@@ -222,23 +219,24 @@
       //hold the sum in a variable
       var sum = 0;
       
-      //check to see if number is negative
-       //set negativeIndex to number; i[0]
+      //check to see if number is greater than last element in rows
+      //if virtual column index
 
       var i = 0;
-      //check if columnIndex is positive
-      if (typeof rows[i][columnIndex] === 'number' && columnIndex >= rows.length - 1) {
+      //check if columnIndex less than the length of rows (if it's on the board)
+      if (typeof rows[i][columnIndex] === 'number' && columnIndex < rows.length) {
         //while value is not undefined
-        while (rows[columnIndex] !== undefined && typeof rows[i][columnIndex] === 'number' && columnIndex >= rows.length - 1) {
+        while (rows[columnIndex] !== undefined && typeof rows[i][columnIndex] === 'number' && columnIndex < rows.length) {
           //add value to total sum
           sum += rows[i][columnIndex];
           //increment down one, right one
           i++;
           columnIndex--;
         }
+      //if it's off the board
       } else {
-        //if negative columnIndex convert to positive number
-        var biggerIndex = columnIndex - rows.length + 1;
+        //if virtual columnIndex convert to indexable value on board
+        var biggerIndex = (columnIndex - rows.length) + 1;
         var j = rows.length - 1;
         //while value is not undefined
         while (rows[biggerIndex] !== undefined && typeof rows[biggerIndex][j] === 'number') {
@@ -252,7 +250,7 @@
       if (sum > 1) {
         return true;
       }
-      return false;
+      // return false; 
     },
 
     // test if any minor diagonals on this board contain conflicts
